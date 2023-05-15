@@ -35,7 +35,7 @@ if (process.env.npm_config_build_from_source || process.env.BUILD_VIBE_FROM_SOUR
 	// download from github
     if (!existsSync(libName)) {
         console.log('Downloading from github')
-        execSync(`curl -o ${libName} ${url}`)
+        execSync(`curl -L -o ${libName} ${url}`)
     } else {
         console.log('Already downloaded')
     }
