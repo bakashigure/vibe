@@ -46,12 +46,6 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
 
-      - name: Install dependencies (Windows only)
-        if: startsWith(matrix.config.os, 'windows')
-        run: |
-          choco install visualstudio2017-workload-vctools -y
-          npm config set msvs_version 2017
-
       - name: Install npm packages
         run: npm install --build-from-source --no-package-lock
 
