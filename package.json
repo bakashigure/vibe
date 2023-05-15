@@ -23,6 +23,8 @@
 		"build:debug": "npm run build --",
 		"build:release": "npm run build -- --release",
 		"build:windows-i686": "npm run build -- --release --target=i686-pc-windows-msvc",
+		"prebuild": "prebuildify --napi --tag-armv",
+		"prepack": "prebuildify-ci download && ([ $(ls prebuilds | wc -l) = '2' ] || (echo 'Some prebuilds are missing'; exit 1))",
 		"install": "npm run build:release && cargo clean",
 		"test": "cargo test"
 	},
@@ -31,5 +33,9 @@
 	},
 	"peerDependencies": {
 		"electron": ">=11.0"
+	},
+	"devDependencies": {
+		"prebuildify": "^5.0.1",
+		"prebuildify-ci": "^1.0.5"
 	}
 }
