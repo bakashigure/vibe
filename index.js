@@ -7,15 +7,7 @@ let nativeBinding = null
 let loadError = null
 let libName = `vibe.${PLATFORM_NAME}-${arch}.node`
 
-if(!existsSync(libName)) {
-  throw new Error(`No native binding found for ${libName}`)
-}
-
-try {
-  nativeBinding = require(`./${libName}`)
-} catch (e) {
-  console.log(e)
-}
+nativeBinding = require(`./${libName}`)
 
 if (!nativeBinding) {
   if (loadError) {
