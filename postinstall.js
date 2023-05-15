@@ -30,10 +30,12 @@ if (process.env.npm_config_build_from_source || process.env.BUILD_VIBE_FROM_SOUR
     // rename index.node to libName
     execSync(`mv index.node ${libName}`)
 } else {
-    // download from github
-    if (!existsSync(libName)) { 
+	const url = `https://github.com/bakashigure/vibe/releases/download/v${npm_package_version}/${libName}`
+    console.log('url', url)
+	// download from github
+    if (!existsSync(libName)) {
         console.log('Downloading from github')
-        execSync(`curl -o ${libName} "https://github.com/bakashigure/vibe/releases/download/v${npm_package_version}/${libName}"`)
+        execSync(`curl -o ${libName} ${url}`)
     } else {
         console.log('Already downloaded')
     }
