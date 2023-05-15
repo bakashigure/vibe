@@ -15,17 +15,16 @@
 		"windows"
 	],
 	"author": "pyke.io",
-	"repository": "github:pykeio/vibe",
-	"bugs": "https://github.com/pykeio/vibe/issues",
-	"homepage": "https://github.com/pykeio/vibe#readme",
+	"repository": "github:bakashigure/vibe",
+	"bugs": "https://github.com/bakashigure/vibe/issues",
+	"homepage": "https://github.com/bakashigure/vibe#readme",
 	"scripts": {
 		"build": "cargo-cp-artifact -nc index.node -- cargo build --message-format=json-render-diagnostics",
 		"build:debug": "npm run build --",
 		"build:release": "npm run build -- --release",
 		"build:windows-i686": "npm run build -- --release --target=i686-pc-windows-msvc",
-		"prebuild": "prebuildify --napi --tag-armv",
-		"prepack": "prebuildify-ci download && ([ $(ls prebuilds | wc -l) = '2' ] || (echo 'Some prebuilds are missing'; exit 1))",
-		"install": "npm run build:release && cargo clean",
+		"install": "npm run postinstall",
+    "postinstall": "node postinstall.js",
 		"test": "cargo test"
 	},
 	"dependencies": {
