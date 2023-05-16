@@ -7,30 +7,16 @@ on:
 
 jobs:
   deploy:
+    runs-on: ${{ matrix.os }}
+
     strategy:
       matrix:
-        config: [
-          {
-            os: windows-latest,
-            os_name: win,
-            platform: x86,
-            prebuild_arch: ia32,
-            prebuild_dir: win32-ia32,
-          },
-          {
-            os: windows-latest,
-            os_name: win,
-            platform: x64,
-            prebuild_arch: x64,
-            prebuild_dir: win32-x64,
-          },
-        ]
         node_version: [16]
-
-    runs-on: ${{ matrix.config.os }}
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        arch: ["amd64", "arm64"]
 
     env:
-      ARCHIVE_NAME: ${{ github.ref_name }}-${{ matrix.config.os_name }}-${{ matrix.config.platform }}.zip
+      BUILD_VIBE_FROM_SOURCE: true
 
     steps:
       - name: Use Rust Toolchain
@@ -49,19 +35,11 @@ jobs:
       - name: Install npm packages
         run: npm install --build-from-source --no-package-lock
 
-      - name: Build
-        env:
-          PREBUILD_ARCH: ${{ matrix.config.prebuild_arch }}
-        run: |
-          npm run prebuild
-          cd prebuilds
-          7z a "${{ env.ARCHIVE_NAME }}" "${{ matrix.config.prebuild_dir }}"
-
       - name: Deploy
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          artifacts: "prebuilds/${{ env.ARCHIVE_NAME }}"
+          artifacts: "*.node"
           draft: false
           prerelease: true
           token: ${{ secrets.PREBUILD_GITHUB_TOKEN }}
